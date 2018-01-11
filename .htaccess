@@ -1,0 +1,10 @@
+#Author name: Tejas;
+#E-mail ID:   tej.sourceus@gmail.com
+#Date:        05-12-17
+
+# NOTE: DO NOT edit this page.
+#
+
+
+ErrorDocument 404 /DCentMASS/fileNotFound.php
+IndexIgnore *

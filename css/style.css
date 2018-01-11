@@ -1,0 +1,214 @@
+/*
+Author name: Tejas;
+E-mail ID:   tej.sourceus@gmail.com
+Date:        12-12-2017
+*/
+
+html {
+    margin:0px;
+    padding: 0px;
+}
+
+.menuText {
+    display: block;
+    height: 15px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.left-bar i {
+    font-size: 20px;
+}
+
+.left-bar{
+   height: 100%;
+   position: fixed;
+   width: 112px;
+   background: #000;
+   color: #ffffff;
+}
+
+.image1{
+ /*padding: 5px 0px;*/
+ /*margin-bottom: 10px;*/
+ background: #fff;
+ }
+
+ul{
+  padding: 0px;
+}
+ 
+.left-bar ul>li>a, .sidenav ul>li>a{
+  padding: 10px 0px;
+  display: block;
+  border-bottom:  1px solid #333;
+  /* text-align: left; */
+  text-align: center;
+  font-weight: bold;
+  transition-timing-function: linear;
+  transition: 1s;
+  color: #fff;
+  text-decoration: none;
+}
+
+.left-bar ul>li>a>i, .sidenav ul>li>a>i{
+    color: #f00;
+  }
+
+.left-bar ul>li:hover a, .sidenav ul>li:hover a{
+    background: #f00;
+    border-bottom:  1px solid #f00;
+    color: #fff;
+    text-decoration: none;
+    transition-timing-function: ease;
+    transition: 0.1s;
+  }
+
+  .left-bar ul>li:hover a i, .sidenav ul>li:hover a i{
+    color: #fff;
+    
+  }
+
+.right-bars {
+	position: fixed;
+	right: 0;
+	height: 100%;
+	width: 224px;
+	background-color: #333;
+	color: #fff;
+}
+
+.righ-col-1 {
+	float: right;
+	width: 50%;
+}
+.righ-col-2 {
+	float: left;
+	width: 50%;
+}
+.righ-col-1, .righ-col-2 {
+    height: 100%;
+    text-align: center;
+}
+
+.rightMenuBlocks {
+	height: 12.5%;
+	border-bottom: 1px solid #fff;
+	border-left: 1px solid #fff;
+    background-color: #333;
+    transition-timing-function: linear;
+    transition: 1s;
+}
+
+  
+
+.rightMenuBlocks:hover {
+    background-color: #666;
+    transition-timing-function: ease;
+    transition: 0.1s;
+}
+
+.linkText {
+    position: relative;
+    top: 38%;
+}
+
+a .rightMenuBlocks {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: #000;
+    color: #ffffff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    font-size: 36px;
+	text-decoration: none;
+	color: #fff;
+}
+
+.sidenav .closebtn:hover {
+	color: #f00;
+}
+
+.activeLink {
+    background: #f00;
+}
+
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.activeLink>a {
+    border-bottom:  1px solid #f00 !important;
+    background: #f00;
+}
+.activeLink>a i {
+    color: #fff !important;
+}
+
+
+/* Content Styles */
+
+.main-heading{
+font-size: 50px;
+font-family: "Titillium Web";
+color: #000;
+font-weight: bold;
+text-align: left;
+display: block;
+}
+
+.sub-heading{
+font-size: 30px;
+font-family: "Poppins";
+color: #000;
+text-align: left;
+display: block;
+}
+
+.para-heading{
+font-size: 20px;
+font-family: "Roboto";
+color: #000;
+font-weight: bold;
+display: block;
+}
+
+.para{
+font-size: 15px;
+font-family: "Open Sans";
+color: #333;
+text-align: justify;
+display: inline;
+}
+
+
+/* MD Custom styles start */
+
+
+
+/* MD custom style ENDS */
