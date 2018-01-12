@@ -1,4 +1,4 @@
 <div>
-    <!-- Foot -->
+    Foot
 </div>
 
