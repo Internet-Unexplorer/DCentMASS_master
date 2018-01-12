@@ -1,0 +1,9 @@
+{
+  "name": "dcentmass_master",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta.3",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.9"
+  }
+}

@@ -1,4 +1,4 @@
 <div>
-    <!-- Content -->
+    <!-- Foot -->
 </div>
 
