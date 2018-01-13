@@ -9,7 +9,7 @@ if (isset($_GET['usertype'])) {
         }
     } else if ($_GET['usertype'] == "instructor") {
         if(isset($_GET['username'])) {
-            echo "Here";
+            include_once("instructor_profile.php");
         } else {
             echo "Please specify Username";
         }

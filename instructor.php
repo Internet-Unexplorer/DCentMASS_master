@@ -34,25 +34,23 @@ if($uname_check < 1)
   echo '<strong style="color:#F00;">' . $uname . ' is taken</strong>';
   exit();
  }
-} 
+}      
 ?><?php
 // Ajax calls this REGISTRATION code to execute
 if(isset($_POST["uname"])){
+	// CONNECT TO THE DATABASE
 	
 	// GATHER THE POSTED DATA INTO LOCAL VARIABLES
-    $uname = preg_replace('#[^a-zA-Z0-9]#i', '', $_POST['uname']);
+    $uname = preg_replace('#[^a-z0-9]#i', '', $_POST['uname']);
 	$dname = preg_replace('#[^a-z0-9]#i', '', $_POST['dname']);
-	$pas1 = $_POST['pas1'];
-	$pas2= $_POST['pas2'];
+    
 	$emai = mysqli_real_escape_string($connect_db, $_POST['emai']);
+    $pas1 = $_POST['pas1'];
+	$pas2 = $_POST['pas2'];
 	$loc = preg_replace('#[^a-zA-Z]#i', '', $_POST['loc']);
-	$coll = preg_replace('#[^a-zA-Z ]#i', '', $_POST['coll']);
 	$con = preg_replace('#[^a-zA-Z 0-9]#i', '', $_POST['con']);
-	$dte = preg_replace('#[^a-zA-Z0-9 /-]#i', '', $_POST['dte']);
-
-	$ip = preg_replace('#[^0-9.]#', '', getenv('REMOTE_ADDR'));
-
-
+	$sub = preg_replace('#[^a-zA-Z0-9 ]#i', '', $_POST['sub']);
+    
 	// GET USER IP ADDRESS
     $ip = preg_replace('#[^0-9.]#', '', getenv('REMOTE_ADDR'));
 	// -------------------------------------------
@@ -60,24 +58,22 @@ if(isset($_POST["uname"])){
     $query = mysqli_query($connect_db, $sql);
 	$e_check = mysqli_num_rows($query);
 	// FORM DATA ERROR HANDLING
-	if($uname == "" || $dname == "" || $emai == "" || $pas1 == "" || $pas2 == "" || $loc == "" || $coll == "" || $con == "" || $dte == ""){
+	if($uname == "" || $dname == "" ||  $emai == "" ||  $pas1 == "" || $pas2 == "" || $loc == "" || $con == "" || $sub == ""){
 		echo "The form submission is missing values.";
         exit();
+	}else if($pas1 != $pas2){
+		echo "Password Not Matching";
+		exit();
 	} else if ($e_check > 0){
         echo "That email address is already in use.";
         exit();
-	} else if($pas1 != $pas2){
-		echo "Password Not Matching";
-		exit();
-	}else if (strlen($uname) < 3 || strlen($uname) > 16) {
+	} else if (strlen($uname) < 3 || strlen($uname) > 16) {
         echo "Username must be between 3 and 16 characters";
         exit();
-        
     } else if (is_numeric($uname[0])) {
         echo 'Username cannot begin with a number';
         exit();
-    }
-       else {
+    } else {
 	// END FORM DATA ERROR HANDLING
 	    // Begin Insertion of data into the database
 		// Hash the password and apply your own mysterious unique salt
@@ -93,22 +89,19 @@ if(isset($_POST["uname"])){
             }
             return $result;
         }
-	   
+       
 		$p_hash = randStrGen(20)."$mmd5".randStrGen(20);
 		// Add user info into the database table for the main site table
-		$sql = "INSERT INTO `students` (`userName`, `displayName`, `dob`, `email`, `slocation`, `college`, `pNumber`) 
-		VALUES ('$uname', '$dname', '$dte', '$emai', '$loc', '$coll', '$con')";
+		$sql = "INSERT INTO `instructor` (`userName`, `displayName`,`email`, `location`, `number`,`subjects`) 
+		VALUES ('$uname', '$dname', '$emai', '$loc', '$con', '$sub')";
 		$query = mysqli_query($connect_db, $sql);
 		$uid = mysqli_insert_id($connect_db);
 
 
 		$sql = "INSERT INTO `login_info` (`userName`, `email`, `pNumber`, `password`, `signe_up_dateTime`, `loginDateTime`, `active`, `userType`, `ip`) 
-		VALUES ('$uname', '$emai', '$con', '$p_hash', now(), now(), '0', 'student', '$ip');";
+		VALUES ('$uname', '$emai', '$con', '$p_hash', now(), now(), '0', 'instructor', '$ip');";
 		$query = mysqli_query($connect_db, $sql);
 		$uid = mysqli_insert_id($connect_db);
-
-
-
 
 		// Email the user their activation link
 		// $to = "$e";
@@ -135,52 +128,61 @@ if(isset($_POST["uname"])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign in</title>
+    <title>Sign Up</title>
 	<?php include_once "stylesAndFont.php"; ?>
 </head>
 <body>
-<form name="studentform" id="studentform" onSubmit="return false;" style="padding:20px; width:500px;">
-  <h2 style="margin-left:5px;">Sign Up</h2><i>All the fields are required.</i>
+<form name="signupform" id="signupform" onSubmit="return false;" style="padding:20px;">
+  <h2 style="margin-left:5px;">Instructor SignUp Form</h2><i>All the fields are required.</i>
   <br>
+  
   <div class="input-group input-group-lg">
-    <input id="username" type="text" onFocus="emptyElement('status')"  onBlur="checkuname()" onKeyUp="restrict('username')" maxlength="16" class="form-control" placeholder="Choose user name " style="border-radius: 0px; margin:5px;">
+  <label>User Name</label>
+<input id="username" type="text" onFocus="emptyElement('status')" onKeyUp="restrict('username')" maxlength="30" class="form-control" placeholder=" Enter Username" onBlur="checkuname()" style="border-radius: 0px; margin:5px;">
    </div>
-   </div>
-   <span id="unamestatus" ></span>
+   <span id="unamestatus"></span>
 
-  <div class="input-group input-group-lg">
-    <input id="displayname" type="text" onFocus="emptyElement('status')" onKeyUp="restrict('displayname')" maxlength="16" class="form-control" placeholder="Display name " style="border-radius: 0px; margin:5px;">
+   <div class="input-group input-group-lg">
+   <label>Display Name</label>
+
+    <input id="displayname" type="text" onFocus="emptyElement('status')" maxlength="30" class="form-control" placeholder="Dispay name" style="border-radius: 0px; margin:5px;">
    </div>
 
    <div class="input-group input-group-lg">
-    <input class="form-control" placeholder="E-mail address" onBlur="checkemail()" id="email" type="emial" onFocus="emptyElement('status')" onKeyUp="restrict('email')" maxlength="88" style="border-radius: 0px; margin:5px;">
+   <label>Email Addres</label>
+ <input class="form-control" placeholder="E-mail address" onBlur="checkemail()" id="email" type="text" onFocus="emptyElement('status')" onKeyUp="restrict('email')" maxlength="88" style="border-radius: 0px; margin:5px;">
    </div><span id="emailstatus" ></span>
- 
-   <div class="input-group input-group-lg">
+
+    <div class="input-group input-group-lg">
+		<label>Password </label>
+
     <input class="form-control" placeholder="Create password" id="pass1" type="password" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
     </div>
-	<div class="input-group input-group-lg">
-    <input class="form-control" placeholder="Retype password" id="pass2" type="password" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
-    </div>
-	<div class="input-group input-group-lg">
-    <input class="form-control" placeholder="Enter your college name" id="college" type="text" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
+
+    <div class="input-group input-group-lg">
+	<label> Confirm Password </label>
+
+    <input class="form-control" placeholder="confirm password" id="pass2" type="password" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
     </div>
     
     <div class="input-group input-group-lg">
-    <input class="form-control" placeholder="Enter your city name" id="location" type="text" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
-    </div>
+	<label>Location </label>
 
-   
-    <div class="input-group input-group-lg">
-    <input class="form-control" placeholder="Enter your phone number" id="contact" type="text" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
+    <input class="form-control" placeholder="Enter your city" id="location" type="text" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
     </div>
-   
+    
     <div class="input-group input-group-lg">
-    <input class="form-control" id="date" type="date" onFocus="emptyElement('status')" style="border-radius: 0px; margin:5px;">
-    </div>
-   
+	<label>Contact Number </label>
 
-   <button class="btn btn-success btn-lg" id="loginbtn" onClick="login()" style="border-radius: 0px; margin-left:5px;">Create Account
+    <input class="form-control" placeholder="Enter your contact number" id="contact" type="text" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
+    </div>
+    
+    <div class="input-group input-group-lg">
+	<label>Subject You Handle </label>
+
+    <input class="form-control" placeholder="Subject You Handle" id="subject" type="text" onFocus="emptyElement('status')" maxlength="100" style="border-radius: 0px; margin:5px;">
+    </div>
+    <button class="btn btn-success btn-lg" id="signupbtn" onClick="signup()" style="border-radius: 0px; margin-left:5px;">Create Account
     </button>
   </form>
 
@@ -194,7 +196,7 @@ if(isset($_POST["uname"])){
 <?php include_once("script.php"); ?>
 
   <script>
-  var siteAddress = "http://localhost/DCentMASS_master";
+    var siteAddress = "http://localhost/DCentMASS_master";
 
     function restrict(elem){
 	var tf = _(elem);
@@ -202,9 +204,10 @@ if(isset($_POST["uname"])){
 	if(elem == "email"){
 		rx = /[' "]/gi;
 	} else if(elem == "username"){
+		rx = /[^a-z0-9]/gi;
+	}else if(elem == "displayname"){
 		rx = /[^a-z0-9_.-]/gi;
-	}	else if(elem == "displayname"){
-		rx = /[^a-z0-9_.-]/gi;
+		
 	}
 	tf.value = tf.value.replace(rx, "");
 }
@@ -213,12 +216,11 @@ if(isset($_POST["uname"])){
 	var status = _("status");
 	status.style.display = "none";
 }
-
 function checkemail(){
 	var u = _("email").value;
 	if(u != ""){
 		_("emailstatus").innerHTML = 'checking ...';
-		var ajax = ajaxObj("POST", "<?php echo $siteAddress; ?>/student.php");
+		var ajax = ajaxObj("POST", "<?php echo $siteAddress; ?>/instructor.php");
         ajax.onreadystatechange = function() {
 	        if(ajaxReturn(ajax) == true) {
 	            _("emailstatus").innerHTML = ajax.responseText;
@@ -233,49 +235,47 @@ function checkuname(){
 	if(t != "")
 	{
 		_("unamestatus").innerHtml = 'checking...';
-		var ajax = ajaxObj("POST", "<?php echo $siteAddress; ?>/student.php");
+		var ajax = ajaxObj("POST", "<?php echo $siteAddress; ?>/instructor.php");
 		ajax.onreadystatechange = function()
-		{
-			if(ajaxReturn(ajax)== true){
-				_("unamestatus").innerHTML = ajax.responseText;
-			}
+	{
+		if(ajaxReturn(ajax)== true){
+			_("unamestatus").innerHTML = ajax.responseText;
 		}
-			ajax.send("unamecheck="+t);
-		}
+	}
+		ajax.send("unamecheck="+t);
+	}
 	
 }
 
-function login(){
-    var uname = _("username").value;
-	var dname = _("displayname").value;
+function signup(){
+	var uname = _("username").value;
+    var dname = _("displayname").value;
+
 	var emai = _("email").value;
-	var pas1 = _("pass1").value;
-	var pas2 = _("pass2").value;
+    var pas1 = _("pass1").value;
+    var pas2 = _("pass2").value;
     var loc = _("location").value;
-	var coll = _("college").value;
-	var con = _("contact").value;
-    var dte = _("date").value;
+    var con = _("contact").value;
+    var sub = _("subject").value;
     var status = _("status");
 	
 	_("username").style.border = "1px solid #ccc";
 	_("displayname").style.border = "1px solid #ccc";
-	_("email").style.border = "1px solid #ccc";
-	
-	_("pass1").style.border = "1px solid #ccc";
-	
-	_("pass2").style.border = "1px solid #ccc";
-	_("location").style.border = "1px solid #ccc";
     
-	_("college").style.border = "1px solid #ccc";
-	
+	_("email").style.border = "1px solid #ccc";
+
+	_("pass1").style.border = "1px solid #ccc";
+	_("pass2").style.border = "1px solid #ccc";
+
+	_("location").style.border = "1px solid #ccc";
 	_("contact").style.border = "1px solid #ccc";
-	_("date").style.border = "1px solid #ccc";
+	_("subject").style.border = "1px solid #ccc";
     
 	if (uname == "") {
 		_("username").style.border = "2px solid #f60";
 	}
     if (dname == "") {
-		_("displayname").style.border = "2px solid #f60";
+		_("username").style.border = "2px solid #f60";
 	}
 	if (emai == "") {
 		_("email").style.border = "2px solid #f60";
@@ -283,36 +283,29 @@ function login(){
 	if (pas1 == "") {
 		_("pass1").style.border = "2px solid #f60";
 	}
-	if (pas2 == "") {
+    if (pas2 == "") {
 		_("pass2").style.border = "2px solid #f60";
 	}
-	
     if (loc == "") {
 		_("location").style.border = "2px solid #f60";
 	}
-	if (coll == "") {
-		_("college").style.border = "2px solid #f60";
-	}
     if (con == "") {
 		_("contact").style.border = "2px solid #f60";
-	}
-    if (dte == "") {
-		_("date").style.border = "2px solid #f60";
+	}if (sub == "") {
+		_("subject").style.border = "2px solid #f60";
 	}
 	if (pas1 != pas2){
 		status.innerHTML = "Password not matching please enter valid password";
 		status.style.display = "block";
 		return 0;
      }
-
-	if( uname == "" || dname == "" || emai == "" || pas1 == "" || pas2 == ""|| loc == ""  || coll == " " || con == "" || dte == ""){
+	if(uname == "" || dname == "" || emai == "" || pas1 == "" || pas2 == "" || loc == "" || con == "" || sub == "" ){
 		status.innerHTML = "Fill out all of the form data";
 		status.style.display = "block";
-		return 0;		
 	} else {
-		_("loginbtn").style.display = "none";
+		_("signupbtn").style.display = "none";
 		status.innerHTML = 'please wait ...';
-		var ajax = ajaxObj("POST", "<?php echo $siteAddress; ?>/student.php");
+		var ajax = ajaxObj("POST", "<?php echo $siteAddress; ?>/instructor.php");
         ajax.onreadystatechange = function() {
 	        if(ajaxReturn(ajax) == true) {
 	            if(ajax.responseText != "signup_success"){
@@ -322,11 +315,12 @@ function login(){
 				} else {
 					alert("Sign Up successful! You may Login now.");
 					window.location = siteAddress+"/login.php";
+
 					//_("signupform").innerHTML = "OK "+u+", check your email inbox and junk mail box at <u>"+e+"</u> in a moment to complete the sign up process by activating your account. You will not be able to do anything on the site until you successfully activate your account.";
 				}
 	        }
         }
-        ajax.send("uname="+uname+"&dname="+dname+"&emai="+emai+"&pas1="+pas1+"&pas2="+pas2+"&loc="+loc+"&coll="+coll+"&con="+con+"&dte="+dte);
+        ajax.send("uname="+uname+"&dname="+dname+"&emai="+emai+"&pas1="+pas1+"&pas2="+pas2+"&loc="+loc+"&con="+con+"&sub="+sub);
 	}
 }
     </script>

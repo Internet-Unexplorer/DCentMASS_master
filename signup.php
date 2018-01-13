@@ -9,9 +9,9 @@ if($user_ok) {
 
 if(isset($_GET['as'])) {
     if ($_GET['as']=="student") {
-    include_once "student.php";
+        include_once "student.php";
     } else if ($_GET['as']=="instructor") {
-        echo "Display instructor form";
+        include_once "instructor.php";
     } else if ($_GET['as']=="jobseeker") {
         echo "Display jobseeker form";
     } else if ($_GET['as']=="employer") {
