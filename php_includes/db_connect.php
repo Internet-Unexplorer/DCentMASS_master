@@ -17,7 +17,7 @@ if(mysqli_connect_errno()) {
 
 $user_ok = "";
 $siteName = "DCentMASS";
-$siteAddress = "http://localhost/DCentMASS";
+$siteAddress = "http://localhost/DCentMASS_master";
 
 
 
