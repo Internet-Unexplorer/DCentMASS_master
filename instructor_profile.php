@@ -48,7 +48,7 @@ if($log_username==$username && $log_usertype==$usertype) { //Check if the visito
     echo "$log_username is not owner of this page. $username is.";
 } ?>
 <br><br>
-<button class="btn btn-danger">Logout</button>
+<a class="btn btn-danger" href="<?php echo $siteAddress ?>/logout.php">Logout</a>
 <!-- END -->
 <?php include_once("script.php"); //Include scripts ?>
 </body>
