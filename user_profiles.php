@@ -24,7 +24,7 @@ if (isset($_GET['usertype'])) {
         }
     } else if ($_GET['usertype'] == "employer") {
         if(isset($_GET['username'])) {
-            echo "Here";
+            include_once("employer_profile.php");
         } else {
             echo "Please specify Username in URL";
         }

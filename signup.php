@@ -12,7 +12,7 @@ if(isset($_GET['as'])) {
     } else if ($_GET['as']=="jobseeker") {
         include_once "jobseeker.php"; // jobseeker signup form
     } else if ($_GET['as']=="employer") {
-        echo "Display employer form";
+        include_once "employer.php"; // Employer signup form
     } else {
         echo "Invalid selection. Please press back button.";
     }

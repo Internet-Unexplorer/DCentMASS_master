@@ -4,3 +4,5 @@
 * change max length of Display name to 30
 
 * Remove 'display name' field restriction from HTML as well as JS
+
+* Allow space to display names in all forms
