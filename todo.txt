@@ -1,0 +1,6 @@
+//TODO:
+
+* Change max length of Username to 30
+* change max length of Display name to 30
+
+* Remove 'display name' field restriction from HTML as well as JS
