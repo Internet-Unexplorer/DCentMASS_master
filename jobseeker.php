@@ -40,8 +40,9 @@ if(isset($_POST["uname"])){
 	// CONNECT TO THE DATABASE
 	
 	// GATHER THE POSTED DATA INTO LOCAL VARIABLES
-    $uname = preg_replace('#[^a-z0-9A-Z]#i', '', $_POST['uname']);
-	$dname = preg_replace('#[^a-z0-9A-Z]#i', '', $_POST['dname']);
+    $uname = preg_replace('#[^a-z0-9A-Z_-]#i', '', $_POST['uname']);
+	$dname = preg_replace('#[^a-z0-9A-Z ._-]#i', '', $_POST['dname']);
+
     
 	$emai = mysqli_real_escape_string($connect_db, $_POST['emai']);
     $pas1 = $_POST['pas1'];
@@ -67,8 +68,8 @@ if(isset($_POST["uname"])){
 	} else if ($e_check > 0){	
         echo "That email address is already in use.";
         exit();
-	} else if (strlen($uname) < 3 || strlen($uname) > 16) {
-        echo "Username must be between 3 and 16 characters";
+	} else if (strlen($uname) < 3 || strlen($uname) > 30) {
+        echo "Username must be between 3 and 30 characters";
         exit();
     } else if (is_numeric($uname[0])) {
         echo 'Username cannot begin with a number';
@@ -141,7 +142,7 @@ if(isset($_POST["uname"])){
   
   <div class="input-group input-group-lg">
   <label>user Name</label>
-    <input id="username" type="text" onFocus="emptyElement('status')" onBlur="checkuname()" onKeyUp="restrict('username')" maxlength="16" class="form-control" placeholder=" Enter Username" style="border-radius: 0px; margin:5px;">
+    <input id="username" type="text" onFocus="emptyElement('status')" onBlur="checkuname()" onKeyUp="restrict('username')" maxlength="40" class="form-control" placeholder=" Enter Username" style="border-radius: 0px; margin:5px;">
    </div>
    <span id="unamestatus"></span>
    
@@ -205,7 +206,7 @@ if(isset($_POST["uname"])){
 	if(elem == "email"){
 		rx = /[' "\\]/gi;
 	} else if(elem == "username"){
-		rx = /[^a-z0-9_.-]/gi;
+		rx = /[^a-z0-9_-]/gi;
 	}
 	tf.value = tf.value.replace(rx, "");
 }

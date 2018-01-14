@@ -40,14 +40,14 @@ if(isset($_POST["uname"])){
 	// CONNECT TO THE DATABASE
 	
 	// GATHER THE POSTED DATA INTO LOCAL VARIABLES
-    $uname = preg_replace('#[^a-z0-9]#i', '', $_POST['uname']);
-	$dname = preg_replace('#[^a-z0-9]#i', '', $_POST['dname']);
+    $uname = preg_replace('#[^a-z0-9A-Z_-]#i', '', $_POST['uname']);
+	$dname = preg_replace('#[^a-z0-9A-Z _-.]#i', '', $_POST['dname']);
     
 	$emai = mysqli_real_escape_string($connect_db, $_POST['emai']);
     $pas1 = $_POST['pas1'];
 	$pas2 = $_POST['pas2'];
 	$loc = preg_replace('#[^a-zA-Z]#i', '', $_POST['loc']);
-	$compny = preg_replace('#[^a-zA-Z.]#i', '', $_POST['compny']);
+	$compny = preg_replace('#[^a-zA-Z. ]#i', '', $_POST['compny']);
     
 	// GET USER IP ADDRESS
     $ip = preg_replace('#[^0-9.]#', '', getenv('REMOTE_ADDR'));
@@ -66,7 +66,7 @@ if(isset($_POST["uname"])){
 		echo "Password Not Matching";
 		exit();
 	} else if (strlen($uname) < 3 || strlen($uname) > 30) {
-        echo "Username must be between 3 and 16 characters";
+        echo "Username must be between 3 and 30 characters";
         exit();
     } else if (is_numeric($uname[0])) {
         echo 'Username cannot begin with a number';
@@ -135,7 +135,7 @@ if(isset($_POST["uname"])){
   <br>
   
   <div class="input-group input-group-lg">
-    <input id="username" type="text" onBlur="checkuname()" onFocus="emptyElement('status')" onKeyUp="restrict('username')" maxlength="30" class="form-control" placeholder=" Enter Username" style="border-radius: 0px; margin:5px;">
+    <input id="username" type="text" onBlur="checkuname()" onFocus="emptyElement('status')" onKeyUp="restrict('username')" maxlength="40" class="form-control" placeholder=" Enter Username" style="border-radius: 0px; margin:5px;">
    </div>
    </div><span id="unamestatus" ></span>
 
@@ -184,7 +184,7 @@ if(isset($_POST["uname"])){
 	if(elem == "email"){
 		rx = /[' "]/gi;
 	} else if(elem == "username"){
-		rx = /[^a-z0-9]/gi;
+		rx = /[^a-z0-9_-]/gi;
 	}
 	tf.value = tf.value.replace(rx, "");
 }

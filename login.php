@@ -121,14 +121,9 @@ if(isset($_POST["uname"])){
   
   
   
-  <div class="input-group input-group-lg">
-    <input id="username" type="text" onFocus="emptyElement('status')" class="form-control" placeholder="Please Enter User name" style="border-radius: 0px; margin:5px;">
-   
-</div>
- 
-
-  
-
+  	<div class="input-group input-group-lg">
+    	<input id="username" type="text" onFocus="emptyElement('status')" class="form-control" placeholder="Please Enter User name" style="border-radius: 0px; margin:5px;">
+	</div>
 
    <div class="input-group input-group-lg">
     <input class="form-control" placeholder="Enter password" id="pass" type="password" onFocus="emptyElement('status')"  style="border-radius: 0px; margin:5px;">

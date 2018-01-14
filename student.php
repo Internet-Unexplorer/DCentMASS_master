@@ -41,12 +41,12 @@ if($uname_check < 1)
 if(isset($_POST["uname"])){
 	
 	// GATHER THE POSTED DATA INTO LOCAL VARIABLES
-    $uname = preg_replace('#[^a-zA-Z0-9]#i', '', $_POST['uname']);
-	$dname = preg_replace('#[^a-z0-9]#i', '', $_POST['dname']);
+    $uname = preg_replace('#[^a-zA-Z0-9_-]#i', '', $_POST['uname']);
+	$dname = preg_replace('#[^a-z0-9A-Z -_.]#i', '', $_POST['dname']);
 	$pas1 = $_POST['pas1'];
 	$pas2= $_POST['pas2'];
 	$emai = mysqli_real_escape_string($connect_db, $_POST['emai']);
-	$loc = preg_replace('#[^a-zA-Z]#i', '', $_POST['loc']);
+	$loc = preg_replace('#[^a-zA-Z ]#i', '', $_POST['loc']);
 	$coll = preg_replace('#[^a-zA-Z ]#i', '', $_POST['coll']);
 	$con = preg_replace('#[^a-zA-Z 0-9]#i', '', $_POST['con']);
 	$dte = preg_replace('#[^a-zA-Z0-9 /-]#i', '', $_POST['dte']);
@@ -71,8 +71,8 @@ if(isset($_POST["uname"])){
 	} else if($pas1 != $pas2){
 		echo "Password Not Matching";
 		exit();
-	}else if (strlen($uname) < 3 || strlen($uname) > 16) {
-        echo "Username must be between 3 and 16 characters";
+	}else if (strlen($uname) < 3 || strlen($uname) > 30) {
+        echo "Username must be between 3 and 30 characters";
         exit();
         
     } else if (is_numeric($uname[0])) {
@@ -147,13 +147,13 @@ if(isset($_POST["uname"])){
   <h2 style="margin-left:5px;">Sign Up</h2><i>All the fields are required.</i>
   <br>
   <div class="input-group input-group-lg">
-    <input id="username" type="text" onFocus="emptyElement('status')"  onBlur="checkuname()" onKeyUp="restrict('username')" maxlength="16" class="form-control" placeholder="Choose user name " style="border-radius: 0px; margin:5px;">
+    <input id="username" type="text" onFocus="emptyElement('status')"  onBlur="checkuname()" onKeyUp="restrict('username')" maxlength="40" class="form-control" placeholder="Choose user name " style="border-radius: 0px; margin:5px;">
    </div>
    </div>
    <span id="unamestatus" ></span>
 
   <div class="input-group input-group-lg">
-    <input id="displayname" type="text" onFocus="emptyElement('status')" onKeyUp="restrict('displayname')" maxlength="16" class="form-control" placeholder="Display name " style="border-radius: 0px; margin:5px;">
+    <input id="displayname" type="text" onFocus="emptyElement('status')" maxlength="30" class="form-control" placeholder="Display name " style="border-radius: 0px; margin:5px;">
    </div>
 
    <div class="input-group input-group-lg">
@@ -206,9 +206,7 @@ if(isset($_POST["uname"])){
 	if(elem == "email"){
 		rx = /[' "]/gi;
 	} else if(elem == "username"){
-		rx = /[^a-z0-9_.-]/gi;
-	}	else if(elem == "displayname"){
-		rx = /[^a-z0-9_.-]/gi;
+		rx = /[^a-z0-9_-]/gi;
 	}
 	tf.value = tf.value.replace(rx, "");
 }
