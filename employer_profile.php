@@ -29,7 +29,7 @@ if($log_username==$username && $log_usertype==$usertype) { //Check if the visito
     $isOwner = TRUE;    
 }
 ?>
-
+ 
 <!-- HTML content -->
 <!DOCTYPE html>
 <html lang="en">
